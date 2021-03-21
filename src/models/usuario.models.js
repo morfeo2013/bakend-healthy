@@ -1,6 +1,6 @@
 const mongoose=require('mongoose')/* requerimos la bases de datos */
 const {Schema}=mongoose/* se crea el esquema de la base de datos */
-const bcrypt =require ('bcryptjs') /* se crea la constante para utilizar el encriptador */
+
 
 
 
@@ -15,19 +15,25 @@ const NuevoModelTabla=new Schema({
     autor: String,
     genero: String,
     ficha: String,
-    imagen:String
+    imagen:String,
  /*    listar:{type:Schema.Types.ObjectId,ref:'loging2'} 
    /*  listar:{type:Schema.Types.ObjectId,ref:'loging2'} */
     /* usuario:{type:Schema.Types.ObjectId,ref:'loging2'} */
 /* CREAMOS LA RELACION ENTRE LAS DOS TABLAS */
    /* relaciontabla:{type:Schema.Types.ObjectId,ref:'loging2'} */
-  
+
+  imageURL:String
 },{
     timestamps:true/* crea informacion de la fecha de creacion  */
 }
+
+
 )
 
-
+NuevoModelTabla.methods.setImgUrl= function  setImgUrl(filename) {
+    const url = 'http://localhost:4000/'
+    this.imageURL= url + 'public/' + filename
+}
 
 
 

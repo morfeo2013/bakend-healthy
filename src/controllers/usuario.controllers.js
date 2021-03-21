@@ -3,6 +3,7 @@ const Guardarmodelo2 = require('../models/usuario.models')/* donde se encuentra 
 
 
 
+/* controlador para la dubida de imagenes */
 
 
 
@@ -106,22 +107,36 @@ UserCtrl2.crear = async (req, res) => {
 
     /* res.send('CREAR USUARIO funcion post') */
     /* recivira la informacion por el post del fronen y la guardara en la constarte de un objeto usando el req */
-    const { titulo,autor,genero,ficha,imagen} = req.body   /* estos corresponde a los del models.js que llegan del frontend*/
+    const { titulo,autor,genero,ficha,imagen,imageURL} = req.body   /* estos corresponde a los del models.js que llegan del frontend*/
 
-
+   
     /* se crea un nuevo modelo utilizando el que esta en la direccion Guardarmodelo2 asignando la informacion*/
     const nuevousuario = new Guardarmodelo2({
         titulo,
         autor,
         genero,
         ficha,
-        imagen
-
+        imagen,
+        imageURL
     })
+
+    /* si envian un archivo lo envia al modelo */
+   
     await nuevousuario.save() /* guardara la informacion en la base de datos con await para que el proseso pueda terminar correctamente */
+   /*  if (req.file){
+        console.log('se envio archivo foto')
+          
+           const {filename}=req.file
+           Guardarmodelo2.setImgUri(filename)
+          
+      
+          }else{
+           console.log('no se envio archivo foto')
+          } */
     res.json({ mensaje: 'Mensaje desde el Backend: Producto guardado exitosamente' }) /* este mensaje se puede mostrar en el frontent */
 
 
+    console.log(req.file)
 }
 
 
