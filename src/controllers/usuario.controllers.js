@@ -119,7 +119,7 @@ UserCtrl2.crear = async (req, res) => {
 
     })
     await nuevousuario.save() /* guardara la informacion en la base de datos con await para que el proseso pueda terminar correctamente */
-    res.json({ mensaje: 'Mensaje desde el Backend: Usuario gardado exitosamente' }) /* este mensaje se puede mostrar en el frontent */
+    res.json({ mensaje: 'Mensaje desde el Backend: Producto guardado exitosamente' }) /* este mensaje se puede mostrar en el frontent */
 
 
 }

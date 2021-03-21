@@ -1,4 +1,4 @@
-const LogingUsuario = {}/* determinar el mombre de la constante que se llamara el control */
+﻿const LogingUsuario = {}/* determinar el mombre de la constante que se llamara el control */
 const Guardarmodelo1 = require('../models/Login.models')/* donde se encuentra el archivo moedels.js que contiene la tabla como sera introducida los modelos de la tabla de datos loging*/
 const bcrypt = require('bcryptjs') /* se crea la constante para utilizar el encriptador */
 
@@ -236,6 +236,8 @@ leeridFavoritos = async (req, res) => {
 /*  PARA LISTAR LOS USUARIOS POR ID CREADOS */
 
 LogingUsuario.loginId = async (req, res) => {
+
+
     /* el fin da la orden de tomar todos los datos de usuarios */
     const id = req.params.id /* obtiene el id del uusario recivido desde frontend */
     const listarusuariosId = await Guardarmodelo1.findById({ _id: id }/* ,{contrasena:0} */)/* compara el de la base de datos con el del frontend y envia el usario que tenga ese id*/
