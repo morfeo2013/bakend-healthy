@@ -11,7 +11,6 @@ const descargas1 =require ('../librerias/descargas')
 
 
 
-
 /* ACA SE CREAN LAS RUTAS QUESERAN LEIDAS EN LA WEB */
 
 route.get('/obtener',UserControl.leer )/* realizar la peticion get,put,delete,pos creadasen el controlls*/

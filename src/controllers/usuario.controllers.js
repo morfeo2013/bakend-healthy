@@ -1,6 +1,17 @@
 const UserCtrl2 = {}/* determinar el mombre de la constante que se llamara el control */
 const Guardarmodelo2 = require('../models/usuario.models')/* donde se encuentra el archivo moedels.js que contiene la tabla como sera introducida los modelos de la tabla de datos */
 
+const cloudinary =require ('cloudinary') /* iniciar cloudinari */
+const fs =require ('fs-extra')  
+/* autentificacion cloudinary */
+
+cloudinary.config({
+
+    cloud_name:'dhiasghho',
+    api_key:'423165925611845',
+    api_secret :'Xb8zjRkqtpThzsEXf9Yrfh7usp0'
+  
+})
 
 
 /* controlador para la dubida de imagenes */
@@ -109,16 +120,21 @@ UserCtrl2.crear = async (req, res) => {
     /* recivira la informacion por el post del fronen y la guardara en la constarte de un objeto usando el req */
     const { titulo,autor,genero,ficha,imagen,imageURL} = req.body   /* estos corresponde a los del models.js que llegan del frontend*/
 
-   
+ const resultado= await cloudinary.v2.uploader.upload(req.file.path)
+ console.log(resultado)
     /* se crea un nuevo modelo utilizando el que esta en la direccion Guardarmodelo2 asignando la informacion*/
     const nuevousuario = new Guardarmodelo2({
         titulo,
         autor,
         genero,
         ficha,
-        imagen,
-        imageURL
+        imagen:resultado.url,
+        imageURL:resultado.url
+       
     })
+
+
+
 
     /* si envian un archivo lo envia al modelo */
    
@@ -133,6 +149,13 @@ UserCtrl2.crear = async (req, res) => {
           }else{
            console.log('no se envio archivo foto')
           } */
+
+
+          
+          await fs.unlink(req.file.path)
+          
+
+
     res.json({ mensaje: 'Mensaje desde el Backend: Producto guardado exitosamente' }) /* este mensaje se puede mostrar en el frontent */
 
 

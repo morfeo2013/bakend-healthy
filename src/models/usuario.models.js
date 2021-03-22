@@ -22,7 +22,7 @@ const NuevoModelTabla=new Schema({
 /* CREAMOS LA RELACION ENTRE LAS DOS TABLAS */
    /* relaciontabla:{type:Schema.Types.ObjectId,ref:'loging2'} */
 
-  imageURL:String
+
 },{
     timestamps:true/* crea informacion de la fecha de creacion  */
 }
@@ -30,10 +30,7 @@ const NuevoModelTabla=new Schema({
 
 )
 
-NuevoModelTabla.methods.setImgUrl= function  setImgUrl(filename) {
-    const url = 'http://localhost:4000/'
-    this.imageURL= url + 'public/' + filename
-}
+
 
 
 
