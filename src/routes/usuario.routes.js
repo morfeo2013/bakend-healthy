@@ -15,10 +15,10 @@ const descargas1 =require ('../librerias/descargas')
 
 route.get('/obtener',UserControl.leer )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
 route.get('/obtener/:indexUsuario',UserControl.leerusuario )/* realizar la peticion get,put,delete,pos creadasen el controlls*/
-route.put('/modificar/:indexUsuario',UserControl.modificar )/* se selecciona la funcion que coresponde con la orden se adiciona el :index  para operaciones de modificacion de clientes */
+route.put('/modificar/:indexUsuario',descargas1.single('image'),UserControl.modificar )/* se selecciona la funcion que coresponde con la orden se adiciona el :index  para operaciones de modificacion de clientes */
 route.delete('/eliminar/:indexUsuario',UserControl.borrar )
 
-route.post('/crear',descargas1.single('image'),UserControl.crear )/* se agrega descargas1 para la imagen */
+route.post('/crear',descargas1.single('image'),UserControl.crear )/* se agrega descargas1 para la imagen para activar la descarga del archivo imagen que se envia*/
 
 
 module.exports = route

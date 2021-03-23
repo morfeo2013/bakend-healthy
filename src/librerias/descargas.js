@@ -4,7 +4,7 @@ const {v4 :uuidv4}= require ('uuid') /* llamada a lel generador de id */
 
 
 /* secrea una funcion llamada stornge */
-/* se crea la carpeta para guardar las fotos */
+/* se crea la carpeta para guardar las fotos con la palabra reservada storange*/
 const storage   /* PALABRA RESERVADA "STORAGE" */= multer.diskStorage({
     destination: path.join(__dirname,'../contenedor'),
     
@@ -18,7 +18,7 @@ const storage   /* PALABRA RESERVADA "STORAGE" */= multer.diskStorage({
 /* e lcodigo para guardar el archivo */
 
 const upload = multer ({
-    storage  /* PALABRA RESERVADA */
+    storage  /* PALABRA RESERVADA  multer envia desdelo que recivio del frontend el archivo file al storange que esla carpeta*/
 })
 
 /* se exporta */

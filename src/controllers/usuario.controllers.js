@@ -119,7 +119,7 @@ UserCtrl2.crear = async (req, res) => {
     /* res.send('CREAR USUARIO funcion post') */
     /* recivira la informacion por el post del fronen y la guardara en la constarte de un objeto usando el req */
     const { titulo,autor,genero,ficha,imagen,imageURL} = req.body   /* estos corresponde a los del models.js que llegan del frontend*/
-
+    console.log(req.body)
  const resultado= await cloudinary.v2.uploader.upload(req.file.path)
  console.log(resultado)
     /* se crea un nuevo modelo utilizando el que esta en la direccion Guardarmodelo2 asignando la informacion*/
