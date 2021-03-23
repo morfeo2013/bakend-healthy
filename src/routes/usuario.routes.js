@@ -21,7 +21,7 @@ route.delete('/eliminar/:indexUsuario',UserControl.borrar )
 route.post('/crear',descargas1.single('image'),UserControl.crear )/* se agrega descargas1 para la imagen para activar la descarga del archivo se utiliza la palabra "image" que se envia en el fronen como file
 como...
  const formdata = new FormData()
- 
+ formdata.append('image',imagen)
 */
 
 
