@@ -18,7 +18,11 @@ route.get('/obtener/:indexUsuario',UserControl.leerusuario )/* realizar la petic
 route.put('/modificar/:indexUsuario',descargas1.single('image'),UserControl.modificar )/* se selecciona la funcion que coresponde con la orden se adiciona el :index  para operaciones de modificacion de clientes */
 route.delete('/eliminar/:indexUsuario',UserControl.borrar )
 
-route.post('/crear',descargas1.single('image'),UserControl.crear )/* se agrega descargas1 para la imagen para activar la descarga del archivo imagen que se envia*/
+route.post('/crear',descargas1.single('image'),UserControl.crear )/* se agrega descargas1 para la imagen para activar la descarga del archivo se utiliza la palabra "image" que se envia en el fronen como file
+como...
+ const formdata = new FormData()
+ 
+*/
 
 
 module.exports = route
