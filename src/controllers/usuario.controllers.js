@@ -78,12 +78,26 @@ UserCtrl2.modificar = async (req, res) => {
      para sacarlo de los parametros de la web (params)
       para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
 
+      const resultado= await cloudinary.v2.uploader.upload(req.file.path)
     /* con los siguientes comandos se busca el usuario usando la id suministrada */
+    console.log(req.body)
+    const { titulo,autor,genero,ficha,imagen,imageURL} = req.body /* sacar los datos quese necesitan del req body */
+    
+    await  Guardarmodelo2.findByIdAndUpdate({ _id: identificador },/* busca ese id en la base de datos comparando el _id 
+         */
+        {
+            titulo,
+            autor,
+            genero,
+            ficha,
+            imagen:resultado.url,  /* aca adicionamos el link obtenido  */
+            imageURL:resultado.url
+           
+        }) /* actualice todo lo que le llegue por el req.body osea todos los nuevos datos json a el _id encontrado  con  findByIdAndUpdate*/
 
-    await Guardarmodelo2.findByIdAndUpdate({ _id: identificador },/* busca ese id en la base de datos comparando el _id  */
-        req.body) /* actualice todo lo que le llegue por el req.body osea todos los nuevos datos json a el _id encontrado  con  findByIdAndUpdate*/
-
-    res.json({
+        await fs.unlink(req.file.path) /* borrar el archivo guardado en el contenedor */
+    
+        res.json({
         mensaje: "Mensaje desde el Backend: modifica el usuario con el id "
     })
 
