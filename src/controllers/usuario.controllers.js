@@ -77,11 +77,11 @@ UserCtrl2.modificar = async (req, res) => {
      para sacar el id que se suministro por fronent (req)
      para sacarlo de los parametros de la web (params)
       para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
-
-      const resultado= await cloudinary.v2.uploader.upload(req.file.path)
-    /* con los siguientes comandos se busca el usuario usando la id suministrada */
-    console.log(req.body)
-    const { titulo,autor,genero,ficha,imagen,imageURL} = req.body /* sacar los datos quese necesitan del req body */
+       if(req.file){
+        const resultado= await cloudinary.v2.uploader.upload(req.file.path)
+        /* con los siguientes comandos se busca el usuario usando la id suministrada */
+        console.log(req.body)
+        const { titulo,autor,genero,ficha,imagen,imageURL} = req.body /* sacar los datos quese necesitan del req body */
     
     await  Guardarmodelo2.findByIdAndUpdate({ _id: identificador },/* busca ese id en la base de datos comparando el _id 
          */
@@ -90,16 +90,36 @@ UserCtrl2.modificar = async (req, res) => {
             autor,
             genero,
             ficha,
-            imagen:resultado.url,  /* aca adicionamos el link obtenido  */
+            
+            imagen:resultado.url ,  /* aca adicionamos el link obtenido  */
             imageURL:resultado.url
            
         }) /* actualice todo lo que le llegue por el req.body osea todos los nuevos datos json a el _id encontrado  con  findByIdAndUpdate*/
 
-        await fs.unlink(req.file.path) /* borrar el archivo guardado en el contenedor */
-    
+       /*  await fs.unlink(req.file.path) */ /* borrar el archivo guardado en el contenedor */
+       await fs.unlink(req.file.path)
         res.json({
-        mensaje: "Mensaje desde el Backend: modifica el usuario con el id "
+        mensaje: "Mensaje desde el Backend: modifica el usuario con el id 000000 "
     })
+       }else{
+        const { titulo,autor,genero,ficha,imagen,imageURL} = req.body /* sacar los datos quese necesitan del req body */
+        await  Guardarmodelo2.findByIdAndUpdate({ _id: identificador },/* busca ese id en la base de datos comparando el _id 
+            */
+           {
+               titulo,
+               autor,
+               genero,
+               ficha,
+               
+             
+              
+           }) /* actualice todo lo que le llegue por el req.body osea todos los nuevos datos json a el _id encontrado  con  findByIdAndUpdate*/
+           res.json({
+            mensaje: "Mensaje desde el Backend: modifica el usuario con el id 11111111"
+        })
+       }
+     
+    
 
 }
 
