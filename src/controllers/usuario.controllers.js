@@ -99,7 +99,7 @@ UserCtrl2.modificar = async (req, res) => {
        /*  await fs.unlink(req.file.path) */ /* borrar el archivo guardado en el contenedor */
        await fs.unlink(req.file.path)
         res.json({
-        mensaje: "Mensaje desde el Backend: modifica el usuario con el id 000000 "
+        mensaje: "Mensaje desde el Backend: modifica el usuario con el id Sin imagen "
     })
        }else{
         const { titulo,autor,genero,ficha,imagen,imageURL} = req.body /* sacar los datos quese necesitan del req body */
@@ -115,7 +115,7 @@ UserCtrl2.modificar = async (req, res) => {
               
            }) /* actualice todo lo que le llegue por el req.body osea todos los nuevos datos json a el _id encontrado  con  findByIdAndUpdate*/
            res.json({
-            mensaje: "Mensaje desde el Backend: modifica el usuario con el id 11111111"
+            mensaje: "Mensaje desde el Backend: modifica el usuario con el id Imagen enviada"
         })
        }
      
