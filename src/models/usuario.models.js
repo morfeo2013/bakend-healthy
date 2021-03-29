@@ -22,7 +22,7 @@ const NuevoModelTabla=new Schema({
 /* CREAMOS LA RELACION ENTRE LAS DOS TABLAS */
    /* relaciontabla:{type:Schema.Types.ObjectId,ref:'loging2'} */
 
-
+    imagenURL:String
 },{
     timestamps:true/* crea informacion de la fecha de creacion  */
 }

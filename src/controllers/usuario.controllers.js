@@ -2,9 +2,10 @@ const UserCtrl2 = {}/* determinar el mombre de la constante que se llamara el co
 const Guardarmodelo2 = require('../models/usuario.models')/* donde se encuentra el archivo moedels.js que contiene la tabla como sera introducida los modelos de la tabla de datos */
 
 const cloudinary =require ('cloudinary') /* iniciar cloudinari */
-const fs =require ('fs-extra')  
-/* autentificacion cloudinary */
+const fs =require ('fs-extra')  /* previa mente instalado el modulo fs-extra */
 
+
+/* autentificacion cloudinary */
 cloudinary.config({
 
     cloud_name:'dhiasghho',
@@ -77,7 +78,23 @@ UserCtrl2.modificar = async (req, res) => {
      para sacar el id que se suministro por fronent (req)
      para sacarlo de los parametros de la web (params)
       para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
+
+      /* SI EL ENVIO TIENE UN ARCHIVO IMAGEN */
        if(req.file){
+
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/* PARA OBTENER EL ID DE CLOUDINARY Y ELIMINARLO */
+
+const {imagenURL}= await Guardarmodelo2.findById({ _id: identificador })
+
+
+console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+console.log('este es el usuario claudinary ++++++++++'+imagenURL)
+console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+await cloudinary.v2.uploader.destroy(imagenURL)
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+
         const resultado= await cloudinary.v2.uploader.upload(req.file.path)
         /* con los siguientes comandos se busca el usuario usando la id suministrada */
         console.log(req.body)
@@ -92,7 +109,7 @@ UserCtrl2.modificar = async (req, res) => {
             ficha,
             
             imagen:resultado.url ,  /* aca adicionamos el link obtenido  */
-            imageURL:resultado.url
+            imagenURL:resultado.public_id
            
         }) /* actualice todo lo que le llegue por el req.body osea todos los nuevos datos json a el _id encontrado  con  findByIdAndUpdate*/
 
@@ -101,6 +118,9 @@ UserCtrl2.modificar = async (req, res) => {
         res.json({
         mensaje: "Mensaje desde el Backend: modifica el usuario con el id Imagen Enviada"
     })
+
+  /* SI EL ENVIO NO TIENE UN ARCHIVO IMAGEN */
+
        }else{
         const { titulo,autor,genero,ficha,imagen,imageURL} = req.body /* sacar los datos quese necesitan del req body */
         await  Guardarmodelo2.findByIdAndUpdate({ _id: identificador },/* busca ese id en la base de datos comparando el _id 
@@ -132,12 +152,24 @@ UserCtrl2.borrar = async (req, res) => {
     para sacarlo de los parametros de la web (params)
      para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
 
-    await Guardarmodelo2.findByIdAndDelete({ _id: identificador },/* busca ese id en la base de datos comparando el _id  */
+     /* const {imagenURL}= await Guardarmodelo2.findById({ _id: identificador })
+     console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+     console.log('este es el usuario claudinary ++++++++++'+imagenURL)
+     console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+     await cloudinary.v2.uploader.destroy(imagenURL) */
+    
+
+     const {imagenURL}= await Guardarmodelo2.findByIdAndDelete({ _id: identificador },/* busca ese id en la base de datos comparando el _id  */
         req.body) /* elimina todo lo que le llegue por el req.bodyen el _id encontrado  con findByIdAndDelete */
 
+        await cloudinary.v2.uploader.destroy(imagenURL)/* borrar la imagen de cloudinary */ 
+
+        console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+        console.log('este es el usuario claudinary ++++++++++'+imagenURL)
+        console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     res.json({
 
-        mensaje: "Mensaje desde el Backend: usuario fue eliminado desde el put usuario"
+        mensaje: "Mensaje desde el Backend:  eliminado desde el put "
 
 
     })
@@ -163,7 +195,7 @@ UserCtrl2.crear = async (req, res) => {
         genero,
         ficha,
         imagen:resultado.url,
-        imageURL:resultado.url
+        imagenURL:resultado.public_id
        
     })
 
