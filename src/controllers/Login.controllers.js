@@ -1,5 +1,5 @@
-﻿const LogingUsuario = {}/* determinar el mombre de la constante que se llamara el control */
-const Guardarmodelo1 = require('../models/Login.models')/* donde se encuentra el archivo moedels.js que contiene la tabla como sera introducida los modelos de la tabla de datos loging*/
+﻿const LogingUsuario = {} /* determinar el mombre de la constante que se llamara el control */
+const Guardarmodelo1 = require('../models/Login.models') /* donde se encuentra el archivo moedels.js que contiene la tabla como sera introducida los modelos de la tabla de datos loging*/
 const bcrypt = require('bcryptjs') /* se crea la constante para utilizar el encriptador */
 
 
@@ -13,32 +13,33 @@ const jwt = require('jsonwebtoken') /* para generar el token */
 /*  const nuevoLogings = new Guardarmodelo1({ nombre, correo, contrasena,cedula,contacto,direccion,ciudad,admin,user2 }) /* si no existe asignelo a un nuevo modelo
      este heredara todas las funciones del modelo  */
 
-LogingUsuario.registrar = async (req, res) => {
+LogingUsuario.registrar = async(req, res) => {
     /* primero se especifica lo que esta en el loging.models.js */
     const { nombre, correo, contrasena, cedula, contacto, direccion, ciudad, admin, user2, contadorFavoritos } = req.body /* se ecuentra en el req del body que secibio del frontend*/
 
 
     /* SE HARA UNA VERIFICACION EN LA BASE DE DATOS DI EL CORREO INGRESADO ESTA YA CREADO */
     const copiaModeloDeBacken = await Guardarmodelo1.findOne({ correo: correo })
-    /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo) */
+        /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo) */
 
     /* crea la condicion si esta repetido se us con if y else*/
     if (copiaModeloDeBacken) {
         res.json({ mensage: 'correo ya existe' })
 
     } else {
-        const nuevoLogings = new Guardarmodelo1({ nombre, correo, contrasena, cedula, contacto, direccion, ciudad, admin, user2, contadorFavoritos }) /* si no existe asignelo a un nuevo modelo
-     este heredara todas las funciones del modelo */
+        const nuevoLogings = new Guardarmodelo1({ nombre, correo, contrasena, cedula, contacto, direccion, ciudad, admin, user2, contadorFavoritos })
+            /* si no existe asignelo a un nuevo modelo
+                este heredara todas las funciones del modelo */
 
         /* antes de agregarlo la contraseña a la vase de datos usara la funcion del models encriptador para activar la encriptacion */
         nuevoLogings.contrasena = await nuevoLogings.encriptador(contrasena)
-        /* este metodo recive el parametro del frontend y lo envia a la funcion de models para activar el metoso encriptar y encriptarla contrasena */
+            /* este metodo recive el parametro del frontend y lo envia a la funcion de models para activar el metoso encriptar y encriptarla contrasena */
 
         /* GUARDARA LA INFORMACION DEL FRONTEND EN LA TABLA DE MONGODB */
         await nuevoLogings.save()
 
         /* generar el token */
-        const token = jwt.sign({ _id: nuevoLogings._id/* si se quiere colocar otro elemento se agrea una coma y se especifica que propiedad se va a crear */ }, 'lol') /* esto crea una cabezera donde ira el token */
+        const token = jwt.sign({ _id: nuevoLogings._id /* si se quiere colocar otro elemento se agrea una coma y se especifica que propiedad se va a crear */ }, 'lol') /* esto crea una cabezera donde ira el token */
 
         /* se crea la constante, 
         se utiliza el require jwt
@@ -56,13 +57,15 @@ LogingUsuario.registrar = async (req, res) => {
 
             {
                 mensage: 'Ingresate login valido desde el backend'
-                /* estos datos se envian si la contraseña y la claves son correcta  al sesionStorange del fronnen */
-                ,
-                nombre: nuevoLogings.nombre, /* para que cuando se loggee obtenga la informacion del nombre de el usuarios en el frontend */
+                    /* estos datos se envian si la contraseña y la claves son correcta  al sesionStorange del fronnen */
+                    ,
+                nombre: nuevoLogings.nombre,
+                /* para que cuando se loggee obtenga la informacion del nombre de el usuarios en el frontend */
                 admin: nuevoLogings.admin,
-                id: nuevoLogings._id, /* utiliza la propiedad heredada para asignar el id  */
-                token/* envia el token del id valido */
-                , contadorFavoritos: nuevoLogings.contadorFavoritos /* para enviar el numero de objetos añadidos en favorios */
+                id: nuevoLogings._id,
+                /* utiliza la propiedad heredada para asignar el id  */
+                token /* envia el token del id valido */ ,
+                contadorFavoritos: nuevoLogings.contadorFavoritos /* para enviar el numero de objetos añadidos en favorios */
             }))
 
     }
@@ -73,7 +76,7 @@ LogingUsuario.registrar = async (req, res) => {
 
 /* PARA LOGEARSE DIRECTAMENTE */
 
-LogingUsuario.ingresar = async (req, res) => {
+LogingUsuario.ingresar = async(req, res) => {
 
     /* solo nesecita el correo y la contrasena para logiarse */
     const { correo, contrasena } = req.body /* se ecuentra en el req del body */
@@ -82,7 +85,7 @@ LogingUsuario.ingresar = async (req, res) => {
     /* SE HARA UNA VERIFICACION EN LA BASE DE DATOS DI EL CORREO INGRESADO ESTA YA CREADO */
     /* copiaModeloDeBacken hereda la informacion de la base de datos (nombre,correo,contrasena)*/
     const copiaModeloDeBacken = await Guardarmodelo1.findOne({ correo: correo })
-    /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo) */
+        /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo) */
 
     /* crea la condicion si esta repetido se us con if y else*/
 
@@ -94,40 +97,41 @@ LogingUsuario.ingresar = async (req, res) => {
 
 
         /* compara si es verdadero o falso */
-        bcrypt.compare(contrasena, copiaModeloDeBacken.contrasena, function (err, resp) {
-            if (resp) {
-                /* generar el token */
-                const token = jwt.sign({ _id: copiaModeloDeBacken._id }, 'lol')
-                /* si se quiere colocar otro elemento se agrea una coma y se especifica que propiedad se va a crear */
+        bcrypt.compare(contrasena, copiaModeloDeBacken.contrasena, function(err, resp) {
+                if (resp) {
+                    /* generar el token */
+                    const token = jwt.sign({ _id: copiaModeloDeBacken._id }, 'lol')
+                        /* si se quiere colocar otro elemento se agrea una coma y se especifica que propiedad se va a crear */
 
 
-                /* se envia in mensajejson */
+                    /* se envia in mensajejson */
 
 
-                res.json(
+                    res.json(
 
 
 
-                    {
-                        mensage: 'Ingresate login valido desde el backend'
-                        /* estos datos se envian si la contraseña y la claves son correcta  al sesionStorange del fronnen */
-                        ,
-                        user2: copiaModeloDeBacken.user2,
-                        admin: copiaModeloDeBacken.admin,
-                        nombre: copiaModeloDeBacken.nombre,
-                        id: copiaModeloDeBacken._id, /* utiliza la propiedad heredada para asignar el id  */
-                        token/* envia el token del id valido */
-                        , contadorFavoritos: copiaModeloDeBacken.contadorFavoritos
+                        {
+                            mensage: 'Ingresate login valido desde el backend'
+                                /* estos datos se envian si la contraseña y la claves son correcta  al sesionStorange del fronnen */
+                                ,
+                            user2: copiaModeloDeBacken.user2,
+                            admin: copiaModeloDeBacken.admin,
+                            nombre: copiaModeloDeBacken.nombre,
+                            id: copiaModeloDeBacken._id,
+                            /* utiliza la propiedad heredada para asignar el id  */
+                            token /* envia el token del id valido */ ,
+                            contadorFavoritos: copiaModeloDeBacken.contadorFavoritos
+                        })
+
+                } else {
+                    res.json({
+                        mensage: 'Contraseña/Correo incorecto',
+
                     })
-
-            } else {
-                res.json({
-                    mensage: 'Contraseña/Correo incorecto',
-
-                })
-            }
-        })
-        /* si es falso */
+                }
+            })
+            /* si es falso */
     } else {
 
         /* si el correo no es el mismo */
@@ -138,50 +142,101 @@ LogingUsuario.ingresar = async (req, res) => {
     }
 }
 
+
+
+
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+/*  PARA RECUPERAR CONTRASEÑA */
+
+
+
+LogingUsuario.Recuperar = async(req, res) => {
+
+    /* solo nesecita el correo y la contrasena para logiarse */
+    const { correo } = req.body /* se ecuentra en el req del body */
+
+
+    /* SE HARA UNA VERIFICACION EN LA BASE DE DATOS DI EL CORREO INGRESADO ESTA YA CREADO */
+    /* copiaModeloDeBacken hereda la informacion de la base de datos (nombre,correo,contrasena)*/
+    const copiaModeloDeBacken = await Guardarmodelo1.findOne({ correo: correo })
+        /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo)  el primero es del la base de datos y el segundo del fronen si tienen el mismo nombre se deja uno solo*/
+
+    /* crea la condicion si esta repetido se us con if y else*/
+
+    /* si el correo es correcto */
+    if (copiaModeloDeBacken) {
+
+        /* se deve comparar la contraseña del labase de datos encryptada y convertir ladel fronentend a encriptada para poder comparar
+         */
+
+
+        res.json(
+
+
+
+            {
+                mensage: 'Tu Contraseña a sido enviada a tu Correo desde el backend'
+                    /* estos datos se envian si la contraseña y la claves son correcta  al sesionStorange del fronnen */
+
+
+            })
+
+        /* si es falso */
+    } else {
+
+        /* si el correo no es el mismo */
+        res.json({
+            mensage: 'Correo incorecto o No existe',
+
+        })
+    }
+}
+
 /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 /*  PARA LISTAR LOS USUARIOS CREADOS */
 
 
-LogingUsuario.listarusuarios = async (req, res) => {
-    /* el fin da la orden de tomar todos los datos de usuarios */
-    const listarusuarios = await Guardarmodelo1.find({}/* ,{contrasena:0} */).populate('user2')
-    res.json(listarusuarios)/* envio el objeto como json  */
+LogingUsuario.listarusuarios = async(req, res) => {
+        /* el fin da la orden de tomar todos los datos de usuarios */
+        const listarusuarios = await Guardarmodelo1.find({} /* ,{contrasena:0} */ ).populate('user2')
+        res.json(listarusuarios) /* envio el objeto como json  */
 
-}
-/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+    }
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 /*  PARA AGREGARLOS USUARIOS POR ID CREADOS */
 
-LogingUsuario.loginIdFavoritos = async (req, res) => {
+LogingUsuario.loginIdFavoritos = async(req, res) => {
     const identificador = req.params.indexUsuario
-    
-     
-
-   
-
-        await Guardarmodelo1.updateOne(                                  // aggregate significa que vamos a agrupar
-            // lista de operaciones, a realizar en secuencia
-            // en este caso solo una operación, agrupar
-            { _id: identificador },
-            { $inc: { contadorFavoritos: 1 } }       // agrupamos por nombre
-            // nueva clave, num_sesiones
-            // cuenta el num.elementos en el grupo
 
 
 
-        )
-      
 
-   
-    if (await Guardarmodelo1.findByIdAndUpdate({ _id: identificador }, { $addToSet: req.body }/* busca ese id en la base de datos comparando el _id     
-    
-    */
-    )) {
 
-     
+    await Guardarmodelo1.updateOne( // aggregate significa que vamos a agrupar
+        // lista de operaciones, a realizar en secuencia
+        // en este caso solo una operación, agrupar
+        { _id: identificador }, { $inc: { contadorFavoritos: 1 } } // agrupamos por nombre
+        // nueva clave, num_sesiones
+        // cuenta el num.elementos en el grupo
 
-       
+
+
+    )
+
+
+
+    if (await Guardarmodelo1.findByIdAndUpdate({ _id: identificador }, { $addToSet: req.body }
+            /* busca ese id en la base de datos comparando el _id     
+                
+                */
+        )) {
+
+
+
+
         res.json({
             mensaje: "Mensaje desde el Backend: Agregado a Favoritos "
 
@@ -205,7 +260,7 @@ LogingUsuario.loginIdFavoritos = async (req, res) => {
 
 
 LogingUsuario.
-leeridFavoritos = async (req, res) => {
+leeridFavoritos = async(req, res) => {
     /* res.send('hola mundo')  */
 
     /* creo una constante y le asigno el valor de guardarmodelo2  esta se le agrega la propiedadd  .find */
@@ -213,15 +268,16 @@ leeridFavoritos = async (req, res) => {
 
     /* sacamos el indice del usuario */
 
-    const identificadorFav = req.params.id  /* se crea una constante donde guarde los datos
-     para sacar el id que se suministro por fronent (req)
-     para sacarlo de los parametros de la web (params)
-      para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
+    const identificadorFav = req.params.id
+        /* se crea una constante donde guarde los datos
+           para sacar el id que se suministro por fronent (req)
+           para sacarlo de los parametros de la web (params)
+            para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
 
-    const usuarioUnicoFav = await Guardarmodelo1.findById({ _id: identificadorFav },/* busca ese id en la base de datos comparando el _id  */
+    const usuarioUnicoFav = await Guardarmodelo1.findById({ _id: identificadorFav }, /* busca ese id en la base de datos comparando el _id  */
         req.body).populate('user2') /* muestraun usuario index todo lo que le llegue por el req.bodyen el _id encontrado  con findById*/
 
-    res.json(usuarioUnicoFav)/* responde y envia los datos para ser leidos por el res y los datos por el usuarioUNICO */
+    res.json(usuarioUnicoFav) /* responde y envia los datos para ser leidos por el res y los datos por el usuarioUNICO */
 
 
 }
@@ -235,27 +291,29 @@ leeridFavoritos = async (req, res) => {
 
 /*  PARA LISTAR LOS USUARIOS POR ID CREADOS */
 
-LogingUsuario.loginId = async (req, res) => {
+LogingUsuario.loginId = async(req, res) => {
 
 
     /* el fin da la orden de tomar todos los datos de usuarios */
     const id = req.params.id /* obtiene el id del uusario recivido desde frontend */
-    const listarusuariosId = await Guardarmodelo1.findById({ _id: id }/* ,{contrasena:0} */)/* compara el de la base de datos con el del frontend y envia el usario que tenga ese id*/
-    res.json(listarusuariosId)/* envio el objeto como json  */
+    const listarusuariosId = await Guardarmodelo1.findById({ _id: id } /* ,{contrasena:0} */ ) /* compara el de la base de datos con el del frontend y envia el usario que tenga ese id*/
+    res.json(listarusuariosId) /* envio el objeto como json  */
 }
 
-/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */ /* ELIMINAR UN USUARIO */
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/* ELIMINAR UN USUARIO */
 
-LogingUsuario.borrar = async (req, res) => {
+LogingUsuario.borrar = async(req, res) => {
     /*  res.send('Eviando una orden Delete')  */
 
     /* se usa tambien el id del usuario en la base de datos */
-    const identificador = req.params.indexUsuario  /* se crea una constante donde guarde los datos
-        para sacar el id que se suministro por fronent (req)
-        para sacarlo de los parametros de la web (params)
-         para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
+    const identificador = req.params.indexUsuario
+        /* se crea una constante donde guarde los datos
+              para sacar el id que se suministro por fronent (req)
+              para sacarlo de los parametros de la web (params)
+               para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
 
-    await Guardarmodelo1.findByIdAndDelete({ _id: identificador },/* busca ese id en la base de datos comparando el _id  */
+    await Guardarmodelo1.findByIdAndDelete({ _id: identificador }, /* busca ese id en la base de datos comparando el _id  */
         req.body) /* elimina todo lo que le llegue por el req.bodyen el _id encontrado  con findByIdAndDelete */
 
     res.json({
@@ -268,20 +326,19 @@ LogingUsuario.borrar = async (req, res) => {
 }
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-LogingUsuario.borrarFavoritos = async (req, res) => {
+LogingUsuario.borrarFavoritos = async(req, res) => {
 
     /*NOTA PARAMS-REQ.BODY existen dos maneras ede enviar los datos pr el params o per el  req.body pero en el caso de eliminar tablas aniddas se pasan por prams si es directamente el padre se usa e req.body
     haunque se podria por el req.bodypero usando el putpues el req.bodyno  recive del axios delete para anidados*/
 
     const identificador = req.params.dir /* debe coicidir con loging.routers para recivir desde el frontend */
-    const identificador2 = req.params.producto/* debe coicidir con loging.routers para recivir desde el frontend */
-    /*   console.log(identificador2) */
-    await Guardarmodelo1.findByIdAndUpdate({ _id: identificador }, { $pull: { "user2": identificador2 } })/* pull para borrar ese elemento dntro del otroelemento de la tabla sin afectar la tabla original */
-    await Guardarmodelo1.updateOne(                                  // aggregate significa que vamos a agrupar
+    const identificador2 = req.params.producto /* debe coicidir con loging.routers para recivir desde el frontend */
+        /*   console.log(identificador2) */
+    await Guardarmodelo1.findByIdAndUpdate({ _id: identificador }, { $pull: { "user2": identificador2 } }) /* pull para borrar ese elemento dntro del otroelemento de la tabla sin afectar la tabla original */
+    await Guardarmodelo1.updateOne( // aggregate significa que vamos a agrupar
         // lista de operaciones, a realizar en secuencia
         // en este caso solo una operación, agrupar
-        { _id: identificador },
-        { $inc: { contadorFavoritos: -1 } }       // agrupamos por nombre
+        { _id: identificador }, { $inc: { contadorFavoritos: -1 } } // agrupamos por nombre
         // nueva clave, num_sesiones
         // cuenta el num.elementos en el grupo
 
@@ -300,7 +357,8 @@ LogingUsuario.borrarFavoritos = async (req, res) => {
     /* const fredyy= await Guardarmodelo1.find({ _id: identificador },{$pull: {"user2":[0]}}) 
     
     
-    *//* busca ese id en la base de datos comparando el _id  */
+    */
+    /* busca ese id en la base de datos comparando el _id  */
     /* elimina todo lo que le llegue por el req.bodyen el _id encontrado  con findByIdAndDelete 
     .update({}, {"$pull" : {"deportes": "voley"}})
      db.usuarios.findOne({"_id" : ObjectId(req.body)})
@@ -315,7 +373,7 @@ LogingUsuario.borrarFavoritos = async (req, res) => {
 
 }
 
-LogingUsuario.pruebadelete = async (req, res) => {
+LogingUsuario.pruebadelete = async(req, res) => {
     try {
         //si reconoce el body. entonces el "problema" esta en el front, el axios.delete no esta diseñado para enviar cuerpo, puede ser eso. Borro todo loq hice? no
 
