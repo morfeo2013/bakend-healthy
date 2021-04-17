@@ -13,7 +13,7 @@ route.post('/ingresar', LogingUsuario.ingresar)
 
 route.post('/Recuperar', LogingUsuario.Recuperar)
     /* route.delete('/eliminar/:indexUsuario',UserControl.borrar ) */
-route.delete('/eliminarUsuario/:indexUsuario', auth.verificartoken, LogingUsuario.borrar)
+route.delete('/eliminarUsuario/:indexUsuario', LogingUsuario.borrar)
 route.delete('/borrarFavoritos/:dir/:producto', LogingUsuario.borrarFavoritos) /* para pasar dos valores por el params */
 
 route.put('/agregarfavorito/:indexUsuario', LogingUsuario.loginIdFavoritos)
