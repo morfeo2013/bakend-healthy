@@ -1,10 +1,15 @@
-﻿const LogingUsuario = {} /* determinar el mombre de la constante que se llamara el control */
+﻿
+
+const LogingUsuario = {} /* determinar el mombre de la constante que se llamara el control */
 const Guardarmodelo1 = require('../models/Login.models') /* donde se encuentra el archivo moedels.js que contiene la tabla como sera introducida los modelos de la tabla de datos loging*/
 const bcrypt = require('bcryptjs') /* se crea la constante para utilizar el encriptador */
 
-import {transporter} from '../correo/email'
+
+
+var transporter1 = require('../correo/email.js')
 
 const jwt = require('jsonwebtoken') /* para generar el token */
+const usuarioModels = require('../models/usuario.models')
 
 
 
@@ -170,6 +175,20 @@ LogingUsuario.Recuperar = async(req, res) => {
 
         /* se deve comparar la contraseña del labase de datos encryptada y convertir ladel fronentend a encriptada para poder comparar
          */
+
+        
+
+        await transporter1.transporter.sendMail({
+            from: '"Recuperacion de Contraseña 👻" <ganohealthymedellin2021@gmail.com>', // sender address
+            to: correo, // list of receivers
+            subject: "Hola "+ copiaModeloDeBacken.nombre +" ✔", // Subject line
+            text: "Hello world?", // plain text body
+            html: "<a>Ingesa en el siguiente link para recuperar tu contraseña.</a>", // html body
+        });
+
+
+
+
 
 
         res.json(
