@@ -2,6 +2,7 @@
 const Guardarmodelo1 = require('../models/Login.models') /* donde se encuentra el archivo moedels.js que contiene la tabla como sera introducida los modelos de la tabla de datos loging*/
 const bcrypt = require('bcryptjs') /* se crea la constante para utilizar el encriptador */
 
+import {transporter} from '../correo/email'
 
 const jwt = require('jsonwebtoken') /* para generar el token */
 

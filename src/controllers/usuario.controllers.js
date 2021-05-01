@@ -56,8 +56,8 @@ UserCtrl2.leerusuario = async(req, res) => {
 
     const identificador = req.params.indexUsuario
         /* se crea una constante donde guarde los datos
-           para sacar el id que se suministro por fronent (req)
-           para sacarlo de los parametros de la web (params)
+        para sacar el id que se suministro por fronent (req)
+        para sacarlo de los parametros de la web (params)
             para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
 
     const usuarioUnico = await Guardarmodelo2.findById({ _id: identificador }, /* busca ese id en la base de datos comparando el _id  */
@@ -77,8 +77,8 @@ UserCtrl2.modificar = async(req, res) => {
 
     const identificador = req.params.indexUsuario
         /* se crea una constante donde guarde los datos
-           para sacar el id que se suministro por fronent (req)
-           para sacarlo de los parametros de la web (params)
+        para sacar el id que se suministro por fronent (req)
+        para sacarlo de los parametros de la web (params)
             para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
 
 
@@ -112,11 +112,9 @@ UserCtrl2.modificar = async(req, res) => {
                 autor,
                 genero,
                 ficha,
-
                 imagen: resultado.secure_url,
                 /* aca adicionamos el link obtenido  */
                 imagenURL: resultado.public_id
-
             }) /* actualice todo lo que le llegue por el req.body osea todos los nuevos datos json a el _id encontrado  con  findByIdAndUpdate*/
 
         /*  await fs.unlink(req.file.path) */
@@ -125,11 +123,7 @@ UserCtrl2.modificar = async(req, res) => {
         res.json({
             mensaje: "Mensaje desde el Backend: modifica el usuario con el id Imagen Enviada"
         })
-
-
-
         /* SI EL ENVIO NO TIENE UN ARCHIVO IMAGEN */
-
     } else {
         const { titulo, autor, genero, ficha, imagen, imageURL } = req.body /* sacar los datos quese necesitan del req body modifica el usuario con el id Sin Imagen*/
         await Guardarmodelo2.findByIdAndUpdate({ _id: identificador },
@@ -140,51 +134,35 @@ UserCtrl2.modificar = async(req, res) => {
                 autor,
                 genero,
                 ficha,
-
-
-
             }) /* actualice todo lo que le llegue por el req.body osea todos los nuevos datos json a el _id encontrado  con  findByIdAndUpdate*/
         res.json({
             mensaje: "Mensaje desde el Backend: modifica el usuario con el id Sin Imagen"
         })
     }
-
-
-
 }
 
 UserCtrl2.borrar = async(req, res) => {
     /*  res.send('Eviando una orden Delete')  */
-
     /* se usa tambien el id del usuario en la base de datos */
     const identificador = req.params.indexUsuario
         /* se crea una constante donde guarde los datos
-          para sacar el id que se suministro por fronent (req)
-          para sacarlo de los parametros de la web (params)
-           para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
-
+        para sacar el id que se suministro por fronent (req)
+        para sacarlo de los parametros de la web (params)
+        para identificar la variable que llamamos en el usuario.router.js en la direccion del /:indexUsuario*/
     /* const {imagenURL}= await Guardarmodelo2.findById({ _id: identificador })
     console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     console.log('este es el usuario claudinary ++++++++++'+imagenURL)
     console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     await cloudinary.v2.uploader.destroy(imagenURL) */
-
-
     const { imagenURL } = await Guardarmodelo2.findByIdAndDelete({ _id: identificador }, /* busca ese id en la base de datos comparando el _id  */
         req.body) /* elimina todo lo que le llegue por el req.bodyen el _id encontrado  con findByIdAndDelete */
-
     await cloudinary.v2.uploader.destroy(imagenURL) /* borrar la imagen de cloudinary */
-
     console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     console.log('este es el usuario claudinary ++++++++++' + imagenURL)
     console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     res.json({
-
         mensaje: "Mensaje desde el Backend:  eliminado desde el put "
-
-
     })
-
 }
 
 /*      titulo,
@@ -192,7 +170,6 @@ UserCtrl2.borrar = async(req, res) => {
         genero,
         ficha */
 UserCtrl2.crear = async(req, res) => {
-
     /* res.send('CREAR USUARIO funcion post') */
     /* recivira la informacion por el post del fronen y la guardara en la constarte de un objeto usando el req */
     const { titulo, autor, genero, ficha, imagen, imageURL } = req.body /* estos corresponde a los del models.js que llegan del frontend*/
@@ -208,23 +185,17 @@ UserCtrl2.crear = async(req, res) => {
         imagen: resultado.secure_url,
         /* para que lo suba como htpps */
         imagenURL: resultado.public_id
-
     })
-
-
-
-
     /* si envian un archivo lo envia al modelo */
-
     await nuevousuario.save() /* guardara la informacion en la base de datos con await para que el proseso pueda terminar correctamente */
         /*  if (req.file){
-             console.log('se envio archivo foto')
-               
+            console.log('se envio archivo foto')
+            
                 const {filename}=req.file
                 Guardarmodelo2.setImgUri(filename)
-               
-           
-               }else{
+            
+            
+            }else{
                 console.log('no se envio archivo foto')
                } */
 
