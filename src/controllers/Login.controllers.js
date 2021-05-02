@@ -6,10 +6,10 @@ const bcrypt = require('bcryptjs') /* se crea la constante para utilizar el encr
 
 
 
-var transporter1 = require('../correo/email.js')
+var transporter1 = require('../correo/email.js') /* se importa el modulo mail.js */
 
 const jwt = require('jsonwebtoken') /* para generar el token */
-const usuarioModels = require('../models/usuario.models')
+
 
 
 
