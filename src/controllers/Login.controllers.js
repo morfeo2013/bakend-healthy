@@ -9,6 +9,7 @@ const bcrypt = require('bcryptjs') /* se crea la constante para utilizar el encr
 var transporter1 = require('../correo/email.js') /* se importa el modulo mail.js */
 
 const jwt = require('jsonwebtoken') /* para generar el token */
+const { link } = require('fs-extra')
 
 
 
@@ -176,14 +177,22 @@ LogingUsuario.Recuperar = async(req, res) => {
         /* se deve comparar la contraseña del labase de datos encryptada y convertir ladel fronentend a encriptada para poder comparar
          */
 
-        
+        var verificacin= `https://www.ganohealthy-medellin.com/password/${copiaModeloDeBacken.contrasena}`
 
         await transporter1.transporter.sendMail({
             from: '"Recuperacion de Contraseña 👻" <ganohealthymedellin2021@gmail.com>', // sender address
             to: correo, // list of receivers
             subject: "Hola "+ copiaModeloDeBacken.nombre +" ✔", // Subject line
             text: "Hello world?", // plain text body
-            html: "<a>Ingesa en el siguiente link para recuperar tu contraseña.</a>", // html body
+            html:`
+            <div>
+            <h4>Ingresa a el siguiente link: </h4>
+            <a href="${verificacin}">${verificacin}</a>
+            </div>
+            
+            `
+            
+        
         });
 
 
