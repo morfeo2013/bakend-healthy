@@ -5,11 +5,20 @@ const Guardarmodelo1 = require('../models/Login.models') /* donde se encuentra e
 const bcrypt = require('bcryptjs') /* se crea la constante para utilizar el encriptador */
 
 
+var get_ip = require('ipware')().get_ip;
+var geoip = require('geoip-lite');
+
+
 
 var transporter1 = require('../correo/email.js') /* se importa el modulo mail.js */
 
 const jwt = require('jsonwebtoken') /* para generar el token */
 const { link } = require('fs-extra')
+
+
+
+
+
 
 
 
@@ -147,6 +156,10 @@ LogingUsuario.ingresar = async(req, res) => {
 
         })
     }
+
+
+   
+    
 }
 
 
@@ -197,7 +210,17 @@ LogingUsuario.Recuperar = async(req, res) => {
 
 
 
-
+        try {
+            var ip_info = get_ip(req);
+            console.log(ip_info.clientIp);
+            
+            var geo = geoip.lookup('181.51.32.153');
+            console.log(geo);
+            var {city,region}=geo
+           
+        } catch (error) {
+            console.log('algo salio mal');
+        }
 
 
         res.json(
@@ -205,7 +228,7 @@ LogingUsuario.Recuperar = async(req, res) => {
 
 
             {
-                mensage: 'Tu Contraseña a sido enviada a tu Correo desde el backend'
+                mensage: 'Tu Contraseña a sido enviada a tu Correo desde el backend'+ip_info.clientIp+city+region
                     /* estos datos se envian si la contraseña y la claves son correcta  al sesionStorange del fronnen */
 
 
@@ -220,6 +243,8 @@ LogingUsuario.Recuperar = async(req, res) => {
 
         })
     }
+    
+
 }
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
