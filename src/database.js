@@ -2,7 +2,7 @@
 /* CREA LA ACTIVACION DE MONGODB , LA ACTIVACIN DE EXPREXS Y MONGODB Y LA CREACION DE UNA BASE DE DATOS LLAMADA  /backend3*/
 
 const mongoose=require('mongoose')
-const URI = ('mongodb+srv://sor:angela2021@cluster0.1zajy.mongodb.net/test' )/* nombre de la tabla */
+const URI = ('mongodb+srv://sor:angela2021@cluster0.1zajy.mongodb.net/test' )/* nombre de la tabla clave para configurar robo3t*/
 mongoose.connect(URI, {   /* al conectarse la tabla se genera siertas propiedades como permitir un id index */
     useNewUrlParser: true,
     useUnifiedTopology: true,

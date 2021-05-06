@@ -214,12 +214,13 @@ LogingUsuario.Recuperar = async(req, res) => {
             var ip_info = get_ip(req);
             console.log(ip_info.clientIp);
             
-            var geo = geoip.lookup('181.51.32.153');
+            var geo = geoip.lookup(ip_info);
             console.log(geo);
             var {city,region}=geo
-           
+        s
+
         } catch (error) {
-            console.log('algo salio mal');
+             console.log('algo salio mal');
         }
 
 

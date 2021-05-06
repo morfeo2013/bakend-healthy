@@ -3,7 +3,7 @@
 const express = require('express'); /* iniciar exprexxs  */
 const morgan = require('morgan');/* mostrar por consola si hay conecciones  */
 const app = express();/* utilizr todas las propiedades de express */
-const bodyparser=require('body-parser')/* traducir los mensaes enviados desde el fronen */
+const bodyparser = require('body-parser')/* traducir los mensaes enviados desde el fronen */
 const cors = require('cors');/* admitir cualquier coneccion al servidor */
 require ('./database')/* activar la base de datos */
 

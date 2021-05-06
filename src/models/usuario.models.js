@@ -16,12 +16,7 @@ const NuevoModelTabla=new Schema({
     genero: String,
     ficha: String,
     imagen:String,
- /*    listar:{type:Schema.Types.ObjectId,ref:'loging2'} 
-   /*  listar:{type:Schema.Types.ObjectId,ref:'loging2'} */
-    /* usuario:{type:Schema.Types.ObjectId,ref:'loging2'} */
-/* CREAMOS LA RELACION ENTRE LAS DOS TABLAS */
-   /* relaciontabla:{type:Schema.Types.ObjectId,ref:'loging2'} */
-
+ 
     imagenURL:String
 },{
     timestamps:true/* crea informacion de la fecha de creacion  */
