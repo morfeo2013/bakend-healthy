@@ -8,6 +8,6 @@ mongoose.connect(URI, {   /* al conectarse la tabla se genera siertas propiedade
     useUnifiedTopology: true,
     useCreateIndex: true,
     useFindAndModify:false
-}).then(db => console.log('conexion base de datos'))  /* si es correcto que muestre un mensage */
-.catch(error=>console.log(error)  )
+}).then(db => console.log('se establecio la conexion a la base de datos'))  /* si es correcto que muestre un mensage */
+.catch(error=>console.log(error,'NO HAY conexion a la base de datos')  )
 module.exports=mongoose /* exportar la base de datos para ser usada por el modelo.js */
