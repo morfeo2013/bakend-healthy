@@ -182,6 +182,21 @@ LogingUsuario.Recuperar = async(req, res) => {
     const copiaModeloDeBacken = await Guardarmodelo1.findOne({ correo: correo })
         /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo)  el primero es del la base de datos y el segundo del fronen si tienen el mismo nombre se deja uno solo*/
 
+ /* generar el token */
+const token = jwt.sign({ _id: copiaModeloDeBacken._id}, 'lol',{expiresIn:'1m'})
+
+/* var {recuperacion} = token
+await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id}, 
+    /* busca ese id en la base de datos comparando el _id 
+     */
+/*  {
+        recuperacion
+    } */ 
+
+
+
+
+
     /* crea la condicion si esta repetido se us con if y else*/
 
     /* si el correo es correcto */
@@ -193,8 +208,8 @@ LogingUsuario.Recuperar = async(req, res) => {
     
 
 
-        var verificacin= `https://www.ganohealthy-medellin.com/cambio_password/${copiaModeloDeBacken.id}`
-        const fredy=copiaModeloDeBacken.id
+        var verificacin= `https://www.ganohealthy-medellin.com/cambio_password/${token}/${copiaModeloDeBacken.id}`
+        
         await transporter1.transporter.sendMail({
             from: '"✉ Recuperacion de Contraseña " <ganohealthymedellin2021@gmail.com>', // sender address
             to: correo, // list of receivers
@@ -235,7 +250,7 @@ LogingUsuario.Recuperar = async(req, res) => {
 
 
             {
-                mensage: 'Tu Contraseña a sido enviada a tu Correo desde el backend'+copiaModeloDeBacken.id/* +ip_info.clientIp+city+region */
+                mensage: 'Tu Contraseña a sido enviada a tu Correo desde el backend'+token/* +copiaModeloDeBacken.id+token *//* +ip_info.clientIp+city+region */
                     /* estos datos se envian si la contraseña y la claves son correcta  al sesionStorange del fronnen */
 
 
@@ -251,6 +266,16 @@ LogingUsuario.Recuperar = async(req, res) => {
         })
     }
     
+
+}
+
+
+
+LogingUsuario.Password = async(req, res) => {
+    res.json({
+        mensage: 'Ingresaste a la recuperacion de password'
+
+    })
 
 }
 
