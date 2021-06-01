@@ -183,7 +183,7 @@ LogingUsuario.Recuperar = async(req, res) => {
         /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo)  el primero es del la base de datos y el segundo del fronen si tienen el mismo nombre se deja uno solo*/
 
  /* generar el token  para colocar tiempo se anexa ,{expiresIn:'30m'}*/
-const token = jwt.sign({ _id: copiaModeloDeBacken._id}, 'lol',{expiresIn:'30m'})
+const token = jwt.sign({ _id: copiaModeloDeBacken._id}, 'lol',{expiresIn:'120s'})
 
 /* var {recuperacion} = token
 await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id}, 
@@ -293,10 +293,11 @@ LogingUsuario.Password = async(req, res) => {
     })
 
        /* ENCRIPTAR A CONTRASEÑA */
- /* antes de agregarlo la contraseña a la vase de datos usara la funcion del models encriptador para activar la encriptacion */
+ /* luego de agregarlo la contraseña a la vase de datos se  usara la funcion del models encriptador para activar la encriptacion */
  nuevaContrasena.contrasena = await nuevaContrasena.encriptador(contrasena)
  /* este metodo recive el parametro del frontend y lo envia a la funcion de models para activar el metoso encriptar y encriptarla contrasena */
  await nuevaContrasena.save()
+ /* para que quede guardado */
 
 
 
