@@ -183,7 +183,7 @@ LogingUsuario.Recuperar = async(req, res) => {
         /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo)  el primero es del la base de datos y el segundo del fronen si tienen el mismo nombre se deja uno solo*/
 
  /* generar el token */
-const token = jwt.sign({ _id: copiaModeloDeBacken._id}, 'lol',{expiresIn:'1m'})
+const token = jwt.sign({ _id: copiaModeloDeBacken._id}, 'lol',{expiresIn:'100m'})
 
 /* var {recuperacion} = token
 await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id}, 
@@ -208,7 +208,7 @@ await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id},
     
 
 
-        var verificacin= `https://www.ganohealthy-medellin.com/cambio_password/${token}/${copiaModeloDeBacken.id}`
+        var verificacin= `https://www.ganohealthy-medellin.com/cambiopassword/${token}/${copiaModeloDeBacken.id}`
         
         await transporter1.transporter.sendMail({
             from: '"✉ Recuperacion de Contraseña " <ganohealthymedellin2021@gmail.com>', // sender address
@@ -270,10 +270,19 @@ await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id},
 }
 
 
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+/*  PARA RECIVIR LOS DATOS DE MODIFICACION DE CONTRASEÑA DESDE EL FRONTENT */
 
 LogingUsuario.Password = async(req, res) => {
+
+    const idUsuario = req.params.usuario /* debe coicidir con loging.routers para recivir desde el frontend */
+    const newPassword = req.params.password /* debe coicidir con loging.routers para recivir desde el frontend */
+
+  /*   const {idUsuario,newPassword}=await req.body
+    console.log(req.body) */
     res.json({
-        mensage: 'Ingresaste a la recuperacion de password'
+        mensage: 'Ingresaste a la recuperacion de password  '+req.params.usuario+'  '+req.params.password
 
     })
 

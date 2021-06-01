@@ -9,12 +9,13 @@ Auth.verificartoken = (req, res, next) => {
 } */
 
 if (!req.headers.autorizacion) {
+    console.log(req.headers.autorizacion)
     return res.json({
     mensage: "No estas autorizado token erroneo o en blanco",
     });
 }
 const token = req.headers.autorizacion.split(" ")[1];
-
+console.log(token)
 jwt.verify(token, "lol", (error, payload) => {
     if (error) {
     return res.json({
