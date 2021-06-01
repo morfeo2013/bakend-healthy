@@ -182,8 +182,8 @@ LogingUsuario.Recuperar = async(req, res) => {
     const copiaModeloDeBacken = await Guardarmodelo1.findOne({ correo: correo })
         /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo)  el primero es del la base de datos y el segundo del fronen si tienen el mismo nombre se deja uno solo*/
 
- /* generar el token */
-const token = jwt.sign({ _id: copiaModeloDeBacken._id}, 'lol',{expiresIn:'100m'})
+ /* generar el token  para colocar tiempo se anexa ,{expiresIn:'30m'}*/
+const token = jwt.sign({ _id: copiaModeloDeBacken._id}, 'lol',{expiresIn:'30m'})
 
 /* var {recuperacion} = token
 await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id}, 
@@ -277,7 +277,29 @@ await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id},
 LogingUsuario.Password = async(req, res) => {
 
     const idUsuario = req.params.usuario /* debe coicidir con loging.routers para recivir desde el frontend */
-    const newPassword = req.params.password /* debe coicidir con loging.routers para recivir desde el frontend */
+    const contrasena = req.params.password /* debe coicidir con loging.routers para recivir desde el frontend */
+
+
+ 
+
+
+
+  /* implementar la buaqueda en la basede datos */
+ const nuevaContrasena= await Guardarmodelo1.findByIdAndUpdate({ _id: idUsuario },
+    /* busca ese id en la base de datos comparando el _id 
+     */
+    {
+        contrasena,
+    })
+
+       /* ENCRIPTAR A CONTRASEÑA */
+ /* antes de agregarlo la contraseña a la vase de datos usara la funcion del models encriptador para activar la encriptacion */
+ nuevaContrasena.contrasena = await nuevaContrasena.encriptador(contrasena)
+ /* este metodo recive el parametro del frontend y lo envia a la funcion de models para activar el metoso encriptar y encriptarla contrasena */
+ await nuevaContrasena.save()
+
+
+
 
   /*   const {idUsuario,newPassword}=await req.body
     console.log(req.body) */
