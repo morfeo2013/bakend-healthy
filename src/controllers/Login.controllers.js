@@ -305,7 +305,7 @@ LogingUsuario.Password = async(req, res) => {
   /*   const {idUsuario,newPassword}=await req.body
     console.log(req.body) */
     res.json({
-        mensage: 'Ingresaste a la recuperacion de password  '+req.params.usuario+'  '+req.params.password
+        mensaje: 'Ingresaste a la recuperacion de password  '+req.params.usuario+'  '+req.params.password
 
     })
 
