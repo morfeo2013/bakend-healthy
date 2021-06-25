@@ -182,6 +182,21 @@ LogingUsuario.Recuperar = async(req, res) => {
     const copiaModeloDeBacken = await Guardarmodelo1.findOne({ correo: correo })
         /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo)  el primero es del la base de datos y el segundo del fronen si tienen el mismo nombre se deja uno solo*/
 
+ /* generar el token  para colocar tiempo se anexa ,{expiresIn:'30m'}*/
+const token = jwt.sign({ _id: copiaModeloDeBacken._id}, 'lol',{expiresIn:'120s'})
+
+/* var {recuperacion} = token
+await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id}, 
+    /* busca ese id en la base de datos comparando el _id 
+     */
+/*  {
+        recuperacion
+    } */ 
+
+
+
+
+
     /* crea la condicion si esta repetido se us con if y else*/
 
     /* si el correo es correcto */
@@ -189,17 +204,23 @@ LogingUsuario.Recuperar = async(req, res) => {
 
         /* se deve comparar la contraseña del labase de datos encryptada y convertir ladel fronentend a encriptada para poder comparar
          */
+        /* CREA UN TOKEN QUE EXPIRE EN UN MINUTO */
+    
 
-        var verificacin= `https://www.ganohealthy-medellin.com/password/${copiaModeloDeBacken.contrasena}`
 
+        var verificacin= `https://www.ganohealthy-medellin.com/cambiopassword/${token}/${copiaModeloDeBacken.id}`
+        
         await transporter1.transporter.sendMail({
-            from: '"Recuperacion de Contraseña 👻" <ganohealthymedellin2021@gmail.com>', // sender address
+            from: '"✉ Recuperacion de Contraseña " <ganohealthymedellin2021@gmail.com>', // sender address
             to: correo, // list of receivers
             subject: "Hola "+ copiaModeloDeBacken.nombre +" ✔", // Subject line
             text: "Hello world?", // plain text body
             html:`
             <div>
-            <h4>Ingresa a el siguiente link: </h4>
+            <p>Estimado Usuario para acceder a la recuperacion de la contraseña, debes ingresar al 
+            siguiente enlace 
+            en los proximos 10 minutos.</p>
+            <h2>Ingresar a el siguiente link : </h2>
             <a href="${verificacin}">${verificacin}</a>
             </div>
             
@@ -220,7 +241,7 @@ LogingUsuario.Recuperar = async(req, res) => {
         s
 
         } catch (error) {
-             console.log('algo salio mal');
+        console.log('algo salio mal');
         }
 
 
@@ -229,7 +250,7 @@ LogingUsuario.Recuperar = async(req, res) => {
 
 
             {
-                mensage: 'Tu Contraseña a sido enviada a tu Correo desde el backend'+ip_info.clientIp+city+region
+                mensage: 'Tu Contraseña a sido enviada a tu Correo desde el backend'+token/* +copiaModeloDeBacken.id+token *//* +ip_info.clientIp+city+region */
                     /* estos datos se envian si la contraseña y la claves son correcta  al sesionStorange del fronnen */
 
 
@@ -240,11 +261,53 @@ LogingUsuario.Recuperar = async(req, res) => {
 
         /* si el correo no es el mismo */
         res.json({
-            mensage: 'Correo incorecto o No existe',
+            mensage: 'Correo incorecto o No existe'
 
         })
     }
     
+
+}
+
+
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+/*  PARA RECIVIR LOS DATOS DE MODIFICACION DE CONTRASEÑA DESDE EL FRONTENT */
+
+LogingUsuario.Password = async(req, res) => {
+
+    const idUsuario = req.params.usuario /* debe coicidir con loging.routers para recivir desde el frontend */
+    const contrasena = req.params.password /* debe coicidir con loging.routers para recivir desde el frontend */
+
+
+ 
+
+
+
+  /* implementar la buaqueda en la basede datos */
+ const nuevaContrasena= await Guardarmodelo1.findByIdAndUpdate({ _id: idUsuario },
+    /* busca ese id en la base de datos comparando el _id 
+     */
+    {
+        contrasena,
+    })
+
+       /* ENCRIPTAR A CONTRASEÑA */
+ /* luego de agregarlo la contraseña a la vase de datos se  usara la funcion del models encriptador para activar la encriptacion */
+ nuevaContrasena.contrasena = await nuevaContrasena.encriptador(contrasena)
+ /* este metodo recive el parametro del frontend y lo envia a la funcion de models para activar el metoso encriptar y encriptarla contrasena */
+ await nuevaContrasena.save()
+ /* para que quede guardado */
+
+
+
+
+  /*   const {idUsuario,newPassword}=await req.body
+    console.log(req.body) */
+    res.json({
+        mensaje: 'Ingresaste a la recuperacion de password  '+req.params.usuario+'  '+req.params.password
+
+    })
 
 }
 
