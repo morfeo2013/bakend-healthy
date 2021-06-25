@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-
+/* proseso para el envio del correo desde e lcorreo configurado en gmail */
 var transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
