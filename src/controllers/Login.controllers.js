@@ -183,7 +183,7 @@ LogingUsuario.Recuperar = async(req, res) => {
         /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo)  el primero es del la base de datos y el segundo del fronen si tienen el mismo nombre se deja uno solo*/
 
  /* generar el token  para colocar tiempo se anexa ,{expiresIn:'30m'}*/
-const token = jwt.sign({ _id: copiaModeloDeBacken._id}, 'lol',{expiresIn:'120s'})
+const token = jwt.sign({ _id: copiaModeloDeBacken._id}, 'lol',{expiresIn:'600s'})
 
 /* var {recuperacion} = token
 await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id}, 
@@ -305,7 +305,7 @@ LogingUsuario.Password = async(req, res) => {
   /*   const {idUsuario,newPassword}=await req.body
     console.log(req.body) */
     res.json({
-        mensaje: 'Ingresaste a la recuperacion de password  '+req.params.usuario+'  '+req.params.password
+        mensaje: 'Ingresaste a la recuperacion de password'
 
     })
 
