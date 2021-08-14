@@ -182,9 +182,7 @@ LogingUsuario.Recuperar = async(req, res) => {
     const copiaModeloDeBacken = await Guardarmodelo1.findOne({ correo: correo })
         /* tome de la base de datos Guardarmodelo1 la propiedad correo y comparelo con el dato ingresdo desde el frontend con la propiedad correo (correo:correo)  el primero es del la base de datos y el segundo del fronen si tienen el mismo nombre se deja uno solo*/
 
- /* generar el token  para colocar tiempo se anexa ,{expiresIn:'30m'}*/
-const token = jwt.sign({ _id: copiaModeloDeBacken._id}, 'lol',{expiresIn:'600s'})
-
+ 
 /* var {recuperacion} = token
 await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id}, 
     /* busca ese id en la base de datos comparando el _id 
@@ -201,6 +199,11 @@ await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id},
 
     /* si el correo es correcto */
     if (copiaModeloDeBacken) {
+
+        /* generar el token  para colocar tiempo se anexa ,{expiresIn:'30m'}*/
+     const token = jwt.sign({ _id: copiaModeloDeBacken._id}, 'lol',{expiresIn:'600s'})
+
+
 
         /* se deve comparar la contraseña del labase de datos encryptada y convertir ladel fronentend a encriptada para poder comparar
          */
@@ -231,7 +234,7 @@ await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id},
 
 
 
-        try {
+       /*  try {
             var ip_info = get_ip(req);
             console.log(ip_info.clientIp);
             
@@ -242,7 +245,7 @@ await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id},
 
         } catch (error) {
         console.log('algo salio mal');
-        }
+        } */
 
 
         res.json(
@@ -257,7 +260,7 @@ await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id},
             })
 
         /* si es falso */
-    } else {
+    } else  if (copiaModeloDeBacken===null) {
 
         /* si el correo no es el mismo */
         res.json({
@@ -266,7 +269,7 @@ await Guardarmodelo1.findByIdAndUpdate({ _id: copiaModeloDeBacken._id},
         })
     }
     
-
+    console.log(copiaModeloDeBacken)
 }
 
 
